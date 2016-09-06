@@ -10,3 +10,5 @@ Prettify json - Turn into setting?
 Save json file on close to remember save state?
 Make button multi-functional instead of changing it
 Write up proper contributions doc
+Start using handlebars for screens?
+Directory chooser for save file location?
