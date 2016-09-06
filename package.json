@@ -1,0 +1,29 @@
+{
+  "name": "batoto-downloader-node",
+  "version": "1.0.0",
+  "description": "Desktop application used to download comics from Batoto",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koroshiya/batoto-downloader-node.git"
+  },
+  "keywords": [],
+  "author": "Koroshiya",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/koroshiya/batoto-downloader-node/issues"
+  },
+  "homepage": "https://github.com/koroshiya/batoto-downloader-node#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^0.37.8"
+  },
+  "dependencies" :{ 
+    "electron" : "1.3.5",
+    "sanitize-filename": "1.6.0",
+    "jsonfile": "2.3.1",
+    "node-zip": "1.1.1"
+  }
+}
