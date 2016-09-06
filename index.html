@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Batoto Downloader</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="css/vendor/vex.css" />
+    <link rel="stylesheet" href="css/vendor/vex-theme-default.css" />
+  </head>
+  <body>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <input class="form-control" type="text" id="urlEntry" placeholder="Chapter/Series URL. https://bato.to/reader#... or https://bato.to/comic/...">
+          </td>
+          <td style="width:130px;">
+            <button type="button" class="btn btn-primary" onclick="parseUrl();">Add To List</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="alert-div"></div>
+
+    <div class="content">
+      <h2>Chapter List</h2>
+      <br>
+      <table id="urlList" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Hash</th>
+            <th>Series</th>
+            <th>Chapter</th>
+            <th>Pages</th>
+            <th>Size</th>
+            <th>Progress</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </div>
+
+    <div id="loginForm" class="gone">
+      <input type="text" name="username" placeholder="Batoto username" />
+      <input type="password" name="password" placeholder="Batoto password" />
+    </div>
+
+    <div id="aboutPage" class="gone">
+      <form>
+        <h2 id="modalTitle">Batoto Downloader</h2>
+        <p>
+          This software was written by Koroshiya and is covered by the MIT license.
+        </p>
+        <p>
+          It uses the following libraries/frameworks:
+          <ul>
+            <li>Electron</li>
+            <li>http</li>
+            <li>https</li>
+            <li>request</li>
+            <li>sanitize-filename</li>
+            <li>jsonfile</li>
+            <li>fs</li>
+            <li>node-zip</li>
+            <li>jQuery</li>
+            <li>Foundation CSS</li>
+            <li>Vex</li>
+          </ul>
+        </p>
+      </form>
+    </div>
+
+    <div id="settingsPage" class="gone">
+      <table class="hover">
+
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+
+      </table>
+    </div>
+
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    const { clipboard } = require('electron');
+    var http = require('http'); //For page downloads
+    var https = require('https'); //For everything else
+    var request = require('request');
+    var sanitize = require("sanitize-filename");
+    var jsonfile = require('jsonfile');
+    var fs = require('fs');
+    var zip = require('node-zip');
+    window.$ = window.jQuery = require('./js/vendor/jquery-3.1.0.js');
+  </script>
+  <script src="js/settings.js" async defer></script>
+  <script src="js/io.js" async defer></script>
+  <script src="js/ui.js" async defer></script>
+  <script src="js/vex-ui.js" async defer></script>
+  <script src="js/net.js" async defer></script>
+  <script src="js/init.js" async defer></script>
+  <script src="js/main.js" async defer></script>
+  <script src="js/vendor/bootstrap.js" async defer></script>
+  <script src="js/vendor/vex.combined.min.js"></script>
+  <script async defer>vex.defaultOptions.className = 'vex-theme-default';</script>
+</html>

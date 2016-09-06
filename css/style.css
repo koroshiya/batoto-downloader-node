@@ -1,0 +1,43 @@
+h1{
+	text-align:center;
+}
+.content{
+	padding: 20px;
+}
+.nav-tbl{
+	position:fixed;
+}
+.alert {
+    padding: 10px;
+	background-color: #2196F3;
+    color: white;
+    margin-bottom: 5px;
+}
+.alert-err{
+    background-color: #f3212d;
+}
+.alert-warn{
+	color: rgb(138, 109, 59);
+    background-color: rgb(252, 248, 227);
+    border-color: rgb(250, 235, 204);
+}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: black;
+}
+#alert-div{
+	position:fixed;
+	left:20px;
+	top:80px;
+}
+
+.gone{display:none;}
