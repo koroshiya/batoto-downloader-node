@@ -41,3 +41,12 @@ h1{
 }
 
 .gone{display:none;}
+
+.vex-content{
+    width:auto !important;
+    max-width:90% !important;
+}
+.vex.vex-theme-default{
+    padding-top:5% !important;
+    padding-bottom:0 !important;
+}

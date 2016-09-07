@@ -67,6 +67,12 @@ const template = [
           showSettingsPage();
         }
       },
+      {
+        label: 'Check RSS Feed',
+        click: (item, focusedWindow) => {
+          checkRssFeed();
+        }
+      },
     ],
   },
   {

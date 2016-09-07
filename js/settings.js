@@ -1,9 +1,8 @@
 function readBooleanSetting(s, defaultValue){
 
 	if ('settings' in batotoJSON)
-		if ('booleans' in batotoJSON.settings)
-			if (s in batotoJSON.settings.booleans)
-				return batotoJSON.settings.booleans[s] === true;
+		if (s in batotoJSON.settings)
+			return batotoJSON.settings[s] === true;
 
 	return defaultValue;
 
@@ -12,9 +11,8 @@ function readBooleanSetting(s, defaultValue){
 function readStringSetting(s, defaultValue){
 
 	if ('settings' in batotoJSON)
-		if ('strings' in batotoJSON.settings)
-			if (s in batotoJSON.settings.strings)
-				return batotoJSON.settings.strings[s];
+		if (s in batotoJSON.settings)
+			return batotoJSON.settings[s];
 
 	return defaultValue;
 
@@ -38,4 +36,8 @@ function isLogDownloadHistory(){
 
 function getDownloadDirectory(){
 	return readStringSetting('downloadDirectory', '/tmp/');
+}
+
+function getRssFeed(){
+	return readStringSetting('rssFeed', '');
 }

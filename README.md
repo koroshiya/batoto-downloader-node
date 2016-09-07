@@ -16,4 +16,27 @@ Run `npm install` to install all of the necessary dependencies.
 
 Run `npm start` to start the application.
 
+### How to develop/build
+
+To compile new handlebars templates, or recompile existing templates, you will need to have the handlebars npm module installed.
+
+`npm install handlebars -g`
+
+For your own sanity, you may also wish to integrate the handlebars build system into your IDE.
+
+For sublime text, this would be:
+
+```
+{
+  "selector": "source.handlebars",
+  "cmd": ["handlebars", "$file", "-f", "$file_path/../js/$file_base_name.hbs.min.js", "-m"],
+  
+  "windows": {
+    "cmd": ["handlebars.cmd", "$file", "-f", "$file_path/../js/$file_base_name.hbs.min.js", "-m"]
+  }
+}
+```
+
+
+
 #### License [MIT](LICENSE.md)

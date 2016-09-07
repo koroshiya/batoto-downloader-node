@@ -1,0 +1,28 @@
+<table class="table table-striped">
+
+	<thead>
+		<tr>
+			<th>Setting</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{{#each settings}}
+		<tr>
+			<td>
+				<b>{{ description }}</b>
+			</td>
+			<td>
+				{{#if isString}}
+				<input name="{{ key }}" type="text" value="{{ value }}">
+				{{/if}}
+				{{#if isBoolean}}
+				<input name="{{ key }}" type="checkbox" {{#if value}}checked="checked" {{/if}} >
+				{{/if}}
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+
+</table>

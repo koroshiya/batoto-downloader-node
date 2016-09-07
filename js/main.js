@@ -14,6 +14,10 @@ var batotoKnownSettings = {
 		downloadDirectory:{
 			description:'Directory in which to place downloaded files',
 			defaultValue:'/tmp/'
+		},
+		rssFeed:{
+			description:'Personal Batoto follows RSS feed URL',
+			defaultValue:''
 		}
 	},
 
@@ -556,5 +560,43 @@ function login(username, password, callback){
 		});
 
 	});
+
+}
+
+function checkRssFeed(){
+
+	//TODO: progress dialog
+
+	var feedUrl = getRssFeed();
+	if (feedUrl.length <= "https://bato.to/myfollows_rss?secret=".length){
+		alertCallback(0, "No RSS feed defined in Tools -> Settings");
+	}else{
+
+		var lastDate = getLastRssItemDate();
+		lastDate = lastDate.length > 0 ? new Date(lastDate) : false;
+
+		feed(feedUrl, function(err, articles) {
+			if (err){
+				console.log(err);
+				alertCallback(0, err);
+			}else{
+				var pDate;
+				var now = new Date();
+				$.each(articles, function(index, val) {
+					
+					pDate = new Date(val.published);
+					console.log('Parsing entry for: '+val.title);
+
+					//If date is not in the future and is after last check
+					if ((!lastDate || pDate > lastDate) && pDate <= now){
+						console.log('Adding entry for: '+val.title);
+						parseUrl(val.link, alertCallback);
+					}
+
+				});
+				setLastRssItemDate(now);
+			}
+		});
+	}
 
 }

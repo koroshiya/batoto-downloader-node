@@ -116,64 +116,42 @@ function addRowToTable(vals){
 }
 
 function showAboutPage(){
-	location.href = '#aboutPageLink';
+	vexPage(
+		Handlebars.templates.about({})
+	);
 }
 
 function buildSettingsPage(){
 
-	var table = $(
-		'<div>'+
-			'<table class="hover">'+
-		        '<thead>'+
-		          '<tr>'+
-		            '<th>Setting</th>'+
-		            '<th>Value</th>'+
-		          '</tr>'+
-		        '</thead>'+
-		        '<tbody></tbody>'+
-
-	    	'</table>'+
-    	'</div>'
-    );
-
-	var tbody = table.find("tbody");
+	var newVals = [];
 
 	$.each(batotoKnownSettings, function(section, vals) {
 
 		$.each(vals, function(index, val) {
-		
-			var tr = $("<tr>");
-			var td1 = $("<td>");
-			var td2 = $("<td>");
 
-			var defVal = val.defaultValue;
+			var setting = {
+				value: val.defaultValue,
+				description: val.description,
+				key: index
+			};
 			if ('settings' in batotoJSON && index in batotoJSON.settings){
-				defVal = batotoJSON.settings[index];
+				setting.value = batotoJSON.settings[index];
 			}
 
-			var desc = $("<b>").text(val.description);
-			var inp = $("<input>").attr('name', index);
 			if (section == 'booleans'){
-				inp.attr('type', 'checkbox');
-				if (defVal === true){
-					inp.attr('checked', 'checked');
-				}
+				setting.isBoolean = true;
 			}else{
-				inp.attr('type', 'text').val(defVal); //TODO: not setting value
+				setting.isString = true;
 			}
 
-			td1.append(desc);
-			td2.append(inp);
-
-			tr.append(td1);
-			tr.append(td2);
-
-			tbody.append(tr);
+			newVals.push(setting);
 
 		});
 
 	});
 
-	return table.html();
+	return Handlebars.templates.settings({
+		settings:newVals
+	});
 
 }

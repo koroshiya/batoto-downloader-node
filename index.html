@@ -50,46 +50,7 @@
       <input type="password" name="password" placeholder="Batoto password" />
     </div>
 
-    <div id="aboutPage" class="gone">
-      <form>
-        <h2 id="modalTitle">Batoto Downloader</h2>
-        <p>
-          This software was written by Koroshiya and is covered by the MIT license.
-        </p>
-        <p>
-          It uses the following libraries/frameworks:
-          <ul>
-            <li>Electron</li>
-            <li>http</li>
-            <li>https</li>
-            <li>request</li>
-            <li>sanitize-filename</li>
-            <li>jsonfile</li>
-            <li>fs</li>
-            <li>node-zip</li>
-            <li>jQuery</li>
-            <li>Foundation CSS</li>
-            <li>Vex</li>
-          </ul>
-        </p>
-      </form>
-    </div>
-
-    <div id="settingsPage" class="gone">
-      <table class="hover">
-
-        <thead>
-          <tr>
-            <th>Setting</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        </tbody>
-
-      </table>
-    </div>
+    
 
   </body>
 
@@ -104,9 +65,11 @@
     var jsonfile = require('jsonfile');
     var fs = require('fs');
     var zip = require('node-zip');
+    var feed = require("feed-read");
     window.$ = window.jQuery = require('./js/vendor/jquery-3.1.0.js');
   </script>
   <script src="js/settings.js" async defer></script>
+  <script src="js/preferences.js" async defer></script>
   <script src="js/io.js" async defer></script>
   <script src="js/ui.js" async defer></script>
   <script src="js/vex-ui.js" async defer></script>
@@ -116,4 +79,9 @@
   <script src="js/vendor/bootstrap.js" async defer></script>
   <script src="js/vendor/vex.combined.min.js"></script>
   <script async defer>vex.defaultOptions.className = 'vex-theme-default';</script>
+
+  <script src="js/vendor/handlebars.runtime-v4.0.5.js"></script>
+  <script src="templates/js/settings.hbs.min.js"></script>
+  <script src="templates/js/about.hbs.min.js"></script>
+
 </html>

@@ -26,3 +26,10 @@ function vexSettingsPage(html, cb){
 	});
 }
 
+function vexPage(html){
+	vex.dialog.alert({
+		message:'',
+		input:html
+	});
+}
+
