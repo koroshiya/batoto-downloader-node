@@ -1,10 +1,25 @@
-function writeBatotoJSON(){
-	jsonfile.writeFile(batotoJSONFile, batotoJSON, function(err) {
-		if (err) console.log(err);
+function writeBatotoJSON(callback){
+
+	var content = JSON.stringify(batotoJSON);
+	
+	fs.open(batotoJSONFile, "w", function(error, fd) {
+
+		if (error){
+			console.log(error);
+		}else{
+
+			fs.write(fd, content, function(error, bytesWritten, buffer) {
+				fs.close(fd);
+				callback();
+			});
+
+		}
+
 	});
+
 }
 
-function readFileIntoBuffer(fileName, cb){
+function readFileIntoBuffer(fileName, callback){
 
 	fs.exists(fileName, function(exists) {
 
@@ -12,20 +27,26 @@ function readFileIntoBuffer(fileName, cb){
 
 	    fs.stat(fileName, function(error, stats) {
 
-	      fs.open(fileName, "r", function(error, fd) {
-	        var buffer = new Buffer(stats.size);
+	    	if (error){
+	    		console.log(error);
+	  			callback(false);
+	    	}else{
 
-	        fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
-	          fs.close(fd);
-	          cb(buffer);
-	        });
+		    	fs.open(fileName, "r", function(error, fd) {
+		    		var buffer = new Buffer(stats.size);
 
-	      });
+		    		fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
+		    			fs.close(fd);
+		    			callback(buffer);
+		    		});
+
+		    	});
+			}
 
 	    });
 
 	  }else{
-	  	cb(false);
+	  	callback(false);
 	  }
 
 	});

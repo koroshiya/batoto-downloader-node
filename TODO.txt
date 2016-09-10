@@ -1,14 +1,11 @@
 TODO
 
 Implement logins
-RSS
+RSS - progress dialog
 Show group name
-Width of vex
 Default window size - Remember size?
-Merge all JSON files into one? Settings, saved state, urls, etc.
 Prettify json - Turn into setting?
 Save json file on close to remember save state?
-Make button multi-functional instead of changing it
 Write up proper contributions doc
-Start using handlebars for screens?
+Implement handlebars for more screens
 Directory chooser for save file location?

@@ -55,7 +55,7 @@ var alertCallback = function(success, err){
 	}
 };
 
-function addChapterToTable(vals){
+function addChapterToTable(vals, callback){
 
 	addRowToTable(vals);
 
@@ -63,56 +63,38 @@ function addChapterToTable(vals){
 		batotoJSON.chapters = [];
 
 	batotoJSON.chapters.push(vals);
-	writeBatotoJSON();
+	writeBatotoJSON(callback);
 
 }
 
 function addRowToTable(vals){
 
+	if ('size' in vals && vals.size > 0){
+		vals.size = getHumanReadableSize(vals.size);
+	}else{
+		vals.size = '';
+	}
+
 	var tbody = $("#urlList > tbody");
 
-	var tr = $("<tr>");
-	var row = $("<td>").text(vals.hash);
-	var series = $("<td>").text(vals.series);
-	var chapter = $("<td>").text(vals.chapter);
-	var pages = $("<td>").text(vals.pages);
-	var size = $("<td>").text('');
-	var progress = $("<td>").text('Ready to download'); //TODO: add progress to vals; dropdown for actions?
-	var btn = $("<button>");
+	var tr = Handlebars.templates.chapterRow(vals)
 
-	if ('size' in vals){
-		size.text(getHumanReadableSize(vals.size));
-	}
-
-	if ('complete' in vals && vals.complete === true){
-		btn.text('Clear')
-			.addClass('btn btn-info')
-			.click(function(event) {
-				deleteChapter(vals);
-				$(this).parent().parent().remove();
-			});
-	}else{
-		btn.text('Download')
-			.addClass('btn btn-primary')
-			.click(function(event) {
-				$(this).text('Queued');
-				$(this).off('click');
-				indexChapter(vals.hash);
-			});
-	}
-
-	var download = $("<td>").html(btn);
-
-	tr.append(row)
-		.append(series)
-		.append(chapter)
-		.append(pages)
-		.append(size)
-		.append(progress)
-		.append(download);
+	//TODO: add progress to vals; dropdown for actions?
 
 	tbody.append(tr);
 
+}
+
+function btnClickDownload(btn, hash){
+	$(btn).text('Queued');
+	$(btn).off('click');
+	indexChapter(hash);
+}
+
+function btnClickClear(btn, hash){
+	deleteChapter(hash, function(){
+		$(btn).closest('tr').remove();
+	});
 }
 
 function showAboutPage(){

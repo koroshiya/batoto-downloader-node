@@ -8,7 +8,7 @@ function readPreference(key, defaultValue){
 
 }
 
-function writePreference(key, value){
+function writePreference(key, value, callback){
 
 	if (!('preferences' in batotoJSON)){
 		batotoJSON.preferences = {};
@@ -16,7 +16,7 @@ function writePreference(key, value){
 	
 	batotoJSON.preferences[key] = value;
 
-	writeBatotoJSON();
+	writeBatotoJSON(callback);
 
 }
 
@@ -24,6 +24,6 @@ function getLastRssItemDate(){
 	return readPreference('lastRssItemDate', '');
 }
 
-function setLastRssItemDate(itemDate){
-	return writePreference('lastRssItemDate', itemDate.toString());
+function setLastRssItemDate(itemDate, callback){
+	writePreference('lastRssItemDate', itemDate.toString(), callback);
 }

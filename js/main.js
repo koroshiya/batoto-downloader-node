@@ -1,5 +1,4 @@
 var batotoJSONFile = 'batoto.json';
-//var batotoJSONFile = 'chapterList.json';
 var batotoJSON = {};
 var batotoExtensions = [".png", ".jpg", ".jpeg", ".gif"];
 var batotoDownloadQueue = [];
@@ -114,8 +113,9 @@ function downloadChapterInfo(url, callback){
 			    }else{
 			    	var vals = processChapterInfo(stub, html);
 			    	if (vals){
-			    		addChapterToTable(vals);
-			        	callback(1, 'Added '+vals.series+' '+vals.chapter);
+			    		addChapterToTable(vals, function(){
+			        		callback(1, 'Added '+vals.series+' '+vals.chapter);
+			    		});
 			    	}else{
 			    		callback(0, 'No chapter found at '+stub);
 			    	}
@@ -167,11 +167,6 @@ function downloadComicInfo(url, callback){
 			    	}
 		    	};
 		    	cb();
-
-		    	//console.log(chapters);
-		    	//var vals = processChapterInfo(stub, html);
-		    	//addChapterToTable(vals);
-		        //callback();
 			}
 			
 		});
@@ -252,29 +247,29 @@ function findChapterByHash(hash){
 
 }
 
-function updateChapter(newChapter){
+function updateChapter(newChapter, callback){
 
 	if ('chapters' in batotoJSON)
 		for (var i = batotoJSON.chapters.length - 1; i >= 0; i--)
 			if (batotoJSON.chapters[i].hash === newChapter.hash)
 				batotoJSON.chapters[i] = newChapter;
 	
-	writeBatotoJSON();
+	writeBatotoJSON(callback);
 
 }
 
-function deleteChapter(chapter){
+function deleteChapter(hash, callback){
 
 	var arr = [];
 
 	if ('chapters' in batotoJSON)
 		for (var i = batotoJSON.chapters.length - 1; i >= 0; i--)
-			if (batotoJSON.chapters[i].hash !== chapter.hash)
+			if (batotoJSON.chapters[i].hash !== hash)
 				arr.push(batotoJSON.chapters[i]);
 
 	batotoJSON.chapters = arr;
 	
-	writeBatotoJSON();
+	writeBatotoJSON(callback);
 
 }
 
@@ -367,15 +362,20 @@ function finishDownloadingChapter(success, hash, chapter, totalSize){
 	if (success){
 		if (isClearAfterDownload()){
 			alertCallback(1, 'Finished downloading '+chapter.series+' '+chapter.chapter);
-			deleteChapter(chapter);
+			deleteChapter(hash, resumeDownloadQueue);
 		}else{
 			chapter.complete = true;
 			chapter.size = totalSize;
-			updateChapter(chapter);
+			updateChapter(chapter, resumeDownloadQueue);
 		}
 	}else{
 		//TODO: 
+		resumeDownloadQueue();
 	}
+	
+}
+
+function resumeDownloadQueue(){
 
 	batotoDownloadInProgress = false;
 
@@ -392,6 +392,7 @@ function finishDownloadingChapter(success, hash, chapter, totalSize){
 	if (newHash){
 		indexChapter(newHash);
 	}
+
 }
 
 function downloadChapter(chapter, urls, prog, chapterSize, callback){
@@ -419,8 +420,10 @@ function downloadChapter(chapter, urls, prog, chapterSize, callback){
 							.text('Clear')
 							.addClass('btn btn-info')
 							.click(function(event) {
-								deleteChapter(chapter);
-								$(this).parent().parent().remove();
+								//TODO: use btnClickClear
+								deleteChapter(chapter.hash, function(){
+									$(this).parent().parent().remove();
+								});
 							});
 						prog.next().html(btn);
 						callback();
@@ -493,9 +496,10 @@ function showSettingsPage(){
 
 			});
 
-			alertCallback(1, 'Settings updated');
 			batotoJSON.settings = settings;
-			writeBatotoJSON();
+			writeBatotoJSON(function(){
+				alertCallback(1, 'Settings updated');
+			});
 		}
 	});
 
@@ -594,7 +598,9 @@ function checkRssFeed(){
 					}
 
 				});
-				setLastRssItemDate(now);
+				setLastRssItemDate(now, function(){
+					//TODO: hide progress dialog
+				});
 			}
 		});
 	}

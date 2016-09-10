@@ -1,0 +1,38 @@
+<tr>
+	<td>{{ hash }}</td>
+	<td>{{ series }}</td>
+	<td>{{ chapter }}</td>
+	<td>{{ pages }}</td>
+	<td>{{ size }}</td>
+	<td>Ready to download</td>
+	<td>
+
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Action
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+
+				{{#if complete}}
+					<li><a href="#" onclick="btnClickClear(this, '{{ hash }}')">
+						Clear
+					</a></li>
+					<li role="separator" class="divider"></li>
+					<button class="btn btn-primary" onclick="btnClickDownload(this, '{{ hash }}')">
+						Re-download
+					</button>
+				{{else}}
+					<li><a href="#" onclick="btnClickDownload(this, '{{ hash }}')">
+						Download
+					</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#" onclick="btnClickClear(this, '{{ hash }}')">
+						Clear
+					</a></li>
+				{{/if}}
+
+			</ul>
+		</div>
+	</td>
+</tr>

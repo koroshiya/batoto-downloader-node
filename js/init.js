@@ -1,31 +1,30 @@
 $(function(){
-	jsonfile.readFile(batotoJSONFile, function(err, obj) {
-		if (err)
-			console.log(err);
-		else{
-			batotoJSON = obj;
 
+	readFileIntoBuffer(batotoJSONFile, function(buffer){
+
+		if (buffer){
+			batotoJSON = JSON.parse(buffer);
 			if ('chapters' in batotoJSON){
 				$.each(batotoJSON.chapters, function(index, val) {
 					addRowToTable(val);
 				});
 			}
 		}
+
+		$("#urlEntry").keypress(function (e) {
+		 if (e.which == 13){
+		 	var val = $(this).val();
+		    parseUrl(val);
+			$(this).val('');
+		    return false;  
+		  }
+		});
+
+		if (isReadClipboard()){
+			readClipboard();
+		}
+
 	});
-
-	$("#urlEntry").keypress(function (e) {
-	 if (e.which == 13){
-	 	var val = $(this).val();
-	    parseUrl(val);
-		$(this).val('');
-	    return false;  
-	  }
-	});
-
-	if (isReadClipboard()){
-		readClipboard();
-	}
-
 
 });
 
