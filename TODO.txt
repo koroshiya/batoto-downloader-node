@@ -2,6 +2,7 @@ TODO
 
 Implement logins
 RSS - progress dialog
+Setting to check RSS feed on startup
 Show group name
 Default window size - Remember size?
 Prettify json - Turn into setting?
@@ -9,3 +10,4 @@ Save json file on close to remember save state?
 Write up proper contributions doc
 Implement handlebars for more screens
 Directory chooser for save file location?
+Fix clear after download setting

@@ -416,14 +416,11 @@ function downloadChapter(chapter, urls, prog, chapterSize, callback){
 						console.log(err);
 					else{
 						prog.text('Complete');
-						var btn = $("<button>")
-							.text('Clear')
+						var btn = $("<button>");
+						btn.text('Clear')
 							.addClass('btn btn-info')
 							.click(function(event) {
-								//TODO: use btnClickClear
-								deleteChapter(chapter.hash, function(){
-									$(this).parent().parent().remove();
-								});
+								btnClickClear(btn[0], chapter.hash);
 							});
 						prog.next().html(btn);
 						callback();
