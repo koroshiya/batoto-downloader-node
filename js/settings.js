@@ -41,3 +41,8 @@ function getDownloadDirectory(){
 function getRssFeed(){
 	return readStringSetting('rssFeed', '');
 }
+
+function getZipFileExtension(){
+	var isCbz = readBooleanSetting('zipFileExtension', false);
+	return isCbz ? 'cbz' : 'zip';
+}

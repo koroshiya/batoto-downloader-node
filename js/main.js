@@ -29,6 +29,10 @@ var batotoKnownSettings = {
 			description:'Listen to clipboard for Batoto URLs',
 			defaultValue:false
 		},
+		zipFileExtension:{
+			description:'Save chapters as CBZ instead of ZIP',
+			defaultValue:false
+		}
 	},
 
 };
@@ -403,7 +407,8 @@ function downloadChapter(chapter, urls, prog, chapterSize, callback){
 	if (len > 0){
 
 		var dest = getDownloadDirectory();
-		var name = chapter.series + " - " + chapter.chapter + " by " + chapter.group + ".zip";
+		var ext = getZipFileExtension();
+		var name = chapter.series + " - " + chapter.chapter + " by " + chapter.group + "." + ext;
 		var zipfile = new zip();
 		var cb = function(){
 			if (++current < len){
