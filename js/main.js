@@ -214,7 +214,7 @@ function processChapterInfo(stub, html){
 	var group = $(domdata.find('select[name=group_select]').find('option[selected=selected]')[0]).text().split('-')[0];
 	var series = $(domdata.find('ul > li > a')[0]).text();
 	var chapter = $(domdata.find('select[name=chapter_select]').find('option[selected=selected]')[0]).text();
-	var pFormat = $(domdata.find('img[src*="img.bato.to/comics/2"]')[0]).attr('src'); //comics/2 ensures we only get comics from year 2000 onwards; not misc images in comics dir
+	var pFormat = $(domdata.find('img[src*=".bato.to/comics/2"]')[0]).attr('src'); //comics/2 ensures we only get comics from year 2000 onwards; not misc images in comics dir
 	var pages = $(domdata.find('select[name=page_select]')[0]).find('option').length;
 
 	if (typeof pFormat === 'undefined'){
