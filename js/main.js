@@ -105,12 +105,7 @@ function downloadChapterInfo(url, callback){
 
 		if (!chapter){
 
-			var path = 'http://bato.to/areader?id='+stub+'&p=1';
-			var referer = 'http://bato.to/reader';
-
-			console.log('posting chapter: '+path);
-
-			postForm(path, referer, function (err, html) {
+			readPage(stub, function (err, html) {
 
 			    if (err) {
 			        callback(0, err);
@@ -450,23 +445,24 @@ function findExtension(i, chapter, callback){
 	i += 1; //index -> page number
 
 	var current = -1;
-	var len = batotoExtensions.length;
 	var cb = function(){
-		if (++current < len){
-			console.log('Indexing page: '+i);
-			var fullurl = chapter.format + 'img' + ("000000" + i).slice(-6) + batotoExtensions[current];
-			console.log('Testing url '+fullurl);
-			testImageUrl(fullurl, function(status, size){
-				console.log('Status '+status);
-				if (status == 200){
-					callback(fullurl, size);
-				}else{
-					cb();
-				}
-			});
-		}else{
-			callback(false);
-		}
+		console.log('Indexing page: '+i);
+		readPage(chapter.hash, function (err, html) {
+			if (err){
+				callback(false);
+			}else{
+				var fullurl = getImageUrl(chapter.hash, html);
+				testImageUrl(fullurl, function(status, size){
+					console.log('Status '+status);
+					if (status == 200){
+						callback(fullurl, size);
+					}else{
+						cb();
+					}
+				});
+			}
+		});
+
 	};
 	cb();
 
@@ -607,4 +603,26 @@ function checkRssFeed(){
 		});
 	}
 
+}
+
+function readPage(stub, callback){
+	var path = 'http://bato.to/areader?id='+stub+'&p=1';
+	var referer = 'http://bato.to/reader';
+
+	console.log('posting chapter: '+path);
+
+	postForm(path, referer, callback);
+}
+
+function getImageUrl(stub, html){
+
+	var domdata = $(html);
+	var page = $(domdata.find('img[src*=".bato.to/comics/2"]')[0]).attr('src'); //comics/2 ensures we only get comics from year 2000 onwards; not misc images in comics dir
+
+	//Images must be over http
+	if (page.startsWith('https://'))
+		page = 'http' + page.substring(5);
+
+	return page
+	
 }
