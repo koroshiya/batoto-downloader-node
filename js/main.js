@@ -105,7 +105,7 @@ function downloadChapterInfo(url, callback){
 
 		if (!chapter){
 
-			readPage(stub, function (err, html) {
+			readPage(stub, 1, function (err, html) {
 
 			    if (err) {
 			        callback(0, err);
@@ -447,7 +447,7 @@ function findExtension(i, chapter, callback){
 	var current = -1;
 	var cb = function(){
 		console.log('Indexing page: '+i);
-		readPage(chapter.hash, function (err, html) {
+		readPage(chapter.hash, i, function (err, html) {
 			if (err){
 				callback(false);
 			}else{
@@ -565,14 +565,18 @@ function login(username, password, callback){
 
 }
 
-function checkRssFeed(){
+function checkRssFeed(onStartup){
 
-	//TODO: progress dialog
+	if (typeof onStartup === 'undefined') onStartup = false;
 
 	var feedUrl = getRssFeed();
 	if (feedUrl.length <= "https://bato.to/myfollows_rss?secret=".length){
-		alertCallback(0, "No RSS feed defined in Tools -> Settings");
+		if (!onStartup){
+			alertCallback(0, "No RSS feed defined in Tools -> Settings");
+		}
 	}else{
+
+		alertCallback(1, 'Checking RSS feed');
 
 		var lastDate = getLastRssItemDate();
 		lastDate = lastDate.length > 0 ? new Date(lastDate) : false;
@@ -597,7 +601,6 @@ function checkRssFeed(){
 
 				});
 				setLastRssItemDate(now, function(){
-					//TODO: hide progress dialog
 				});
 			}
 		});
@@ -605,8 +608,8 @@ function checkRssFeed(){
 
 }
 
-function readPage(stub, callback){
-	var path = 'http://bato.to/areader?id='+stub+'&p=1';
+function readPage(stub, page, callback){
+	var path = 'http://bato.to/areader?id='+stub+'&p='+page;
 	var referer = 'http://bato.to/reader';
 
 	console.log('posting chapter: '+path);
