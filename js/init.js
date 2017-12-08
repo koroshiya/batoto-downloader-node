@@ -24,6 +24,8 @@ $(function(){
 			readClipboard();
 		}
 
+		checkRssFeed(true);
+
 	});
 
 });
